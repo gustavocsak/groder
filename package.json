@@ -1,12 +1,12 @@
 {
     "name": "groder",
-    "description": "Coder grader assistant",
+    "description": "Code grader assistant",
     "version": "0.0.1",
     "homepage": "http://chrome.google.com/webstore",
-    "author": "ENTER YOUR NAME HERE",
+    "author": "Gustavo",
     "repository": {
         "type": "git",
-        "url": "ENTER GIT REPO URL"
+        "url": "https://github.com/gustavocsak/groder"
     },
     "scripts": {
         "start": "xt-build -e dev -w",
