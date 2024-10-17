@@ -1,2 +1,2 @@
 # groder
-Code grader assistant
+Code grader assistant - browser extension
