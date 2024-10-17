@@ -4,18 +4,31 @@
     "description": "__MSG_appDescription__",
     "homepage_url": "http://chrome.google.com/webstore",
     "version": "0.0.1",
-    "version_name": "0.0.1",
-    "manifest_version": 3,
+    "manifest_version": 2,
     "default_locale": "en",
-    "minimum_chrome_version": "88",
-    "permissions": [],
+    "permissions": ["contextMenus", "activeTab"],
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ],
+    "chrome": {
+        "minimum_chrome_version": "88",
+        "background": {
+            "scripts": ["background.js"]
+        },
+        "version_name": "0.0.1"
+    },
+    "firefox": {
+        "background": {
+            "scripts": ["background.js"]
+        }
+    },
     "icons": {
         "128": "assets/img/128x128.png"
     },
-    "background": {
-        "service_worker": "background.js"
-    },
-    "action": {
+    "browser_action": {
         "default_icon": {
             "16": "assets/img/16x16.png",
             "24": "assets/img/24x24.png",
