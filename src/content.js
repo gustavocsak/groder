@@ -5,11 +5,7 @@ browser.runtime.onMessage.addListener((message) => {
     alert(formattedCode);
   }
   if (message.action === "pasteCode") {
-    const code = message.clipboardCode;
+    const code = message.formattedCode;
     alert(code);
   }
 });
-
-function formatCode(code) {
-  return code.split("\n").map((line, index) => `${index + 1}: ${line}`).join("\n");
-}

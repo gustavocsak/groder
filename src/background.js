@@ -1,10 +1,10 @@
+import { formatCode } from "./format.js";
 browser.contextMenus.create(
   {
     id: "format-code",
     title: "Format selected code",
     contexts: ["selection"],
   },
-
 );
 
 browser.contextMenus.create(
@@ -20,8 +20,10 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
     browser.tabs.sendMessage(tab.id, { action: "formatCode", selectedText: info.selectionText });
   }
   if (info.menuItemId === "paste-formatted-code") {
-    navigator.clipboard.readText().then((clipboardCode => {
-      browser.tabs.sendMessage(tab.id, { action: "pasteCode", clipboardCode });
-    }));
+     
+    navigator.clipboard.readText().then(async (clipboardCode) => {
+      const formattedCode = await formatCode(clipboardCode);
+      browser.tabs.sendMessage(tab.id, { action: "pasteCode", formattedCode });
+    });
   }
 });

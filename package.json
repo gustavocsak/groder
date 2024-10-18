@@ -49,5 +49,8 @@
                 "src": "./src/content.js"
             }
         ]
+    },
+    "dependencies": {
+        "prettier": "^3.3.3"
     }
 }
