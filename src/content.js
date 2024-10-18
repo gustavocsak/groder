@@ -4,6 +4,10 @@ browser.runtime.onMessage.addListener((message) => {
     const formattedCode = formatCode(code);
     alert(formattedCode);
   }
+  if (message.action === "pasteCode") {
+    const code = message.clipboardCode;
+    alert(code);
+  }
 });
 
 function formatCode(code) {
