@@ -1,4 +1,4 @@
-import { getGradeInput } from './d2l-select.js';
+import { getGradeInput, setFeedbackValue } from './d2l-select.js';
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === "formatCode") {
@@ -17,8 +17,9 @@ browser.runtime.onMessage.addListener((message) => {
       bubbles: true, // Allow the event to bubble up
       cancelable: true // Allow the event to be canceled
     });
-
-     // Dispatch the event
+    // Dispatch the event
     input.dispatchEvent(event);
+
+    setFeedbackValue(message.gradePackage.feedback);
   }
 });

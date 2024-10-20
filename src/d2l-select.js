@@ -1,6 +1,6 @@
-function getRightPanel() {
+export function getRightPanel() {
   const page = document.querySelector(".d2l-token-receiver");
-
+  console.log("test");
   // main will have <div id="evaluation-template">
   const main = page.shadowRoot.children[0].shadowRoot.children[0];
 
@@ -28,7 +28,7 @@ export function getGradeInput() {
   return input;
 }
 
-export function selectFeedbackInput() {
+function getSourceCodeButton() {
   const rightPanel = getRightPanel();
 
   // <div class="d2l-htmleditor-label-flex-container">
@@ -36,5 +36,36 @@ export function selectFeedbackInput() {
 
   // <div class="d2l-htmleditor-toolbar-actions">
   const toolbar = bottomInput.children[1].children[0].children[0].children[0].shadowRoot.children[0].children[0];
+
+  // d2l element for source code
+  const sourceCodeButton = toolbar.querySelector('d2l-htmleditor-button[cmd="d2l-source-code"]').shadowRoot.children[0];
+
+  return sourceCodeButton;
+}
+
+function getFeedbackTextarea() {
+  const rightPanel = getRightPanel();
+
+  // <div class="d2l-htmleditor-label-flex-container">
+  const bottomInput = rightPanel.children[1].children[0].shadowRoot.children[0].shadowRoot.children[0];
+
+  // <d2l-dialog>
+  console.log(bottomInput.children[1].children[1]);
+  const dialog = bottomInput.children[1].children[1].children[0].shadowRoot.children[0];
+
+  const innerTextArea = dialog.children[0].children[0].children[1].children[1];
+
+  return innerTextArea;
+}
+
+export function setFeedbackValue(feedback) {
+  const sourceCodeButton = getSourceCodeButton();
+
+  // click button to show dialog in page 
+  sourceCodeButton.click();
+  //console.log(feedback)
+  const feedbackTextarea = getFeedbackTextarea();
+
+  feedbackTextarea.textContent = "test";
 
 }
