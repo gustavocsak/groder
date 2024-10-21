@@ -1,6 +1,6 @@
 export function getRightPanel() {
   const page = document.querySelector(".d2l-token-receiver");
-  console.log("test");
+
   // main will have <div id="evaluation-template">
   const main = page.shadowRoot.children[0].shadowRoot.children[0];
 
@@ -49,8 +49,10 @@ function getFeedbackTextarea() {
   // <div class="d2l-htmleditor-label-flex-container">
   const bottomInput = rightPanel.children[1].children[0].shadowRoot.children[0].shadowRoot.children[0];
 
+  // FIX: d2l-dialog not found after clicking source button
+  // FIX: (d2l-htmleditor-sourcecode-dialog not found)
+
   // <d2l-dialog>
-  console.log(bottomInput.children[1].children[1]);
   const dialog = bottomInput.children[1].children[1].children[0].shadowRoot.children[0];
 
   const innerTextArea = dialog.children[0].children[0].children[1].children[1];
@@ -58,14 +60,48 @@ function getFeedbackTextarea() {
   return innerTextArea;
 }
 
+function waitForFeedbackTextarea() {
+  return new Promise((resolve, reject) => {
+    const checkTextarea = () => {
+      const feedbackTextarea = getFeedbackTextarea();
+      
+      // Check if the textarea is available
+      if (feedbackTextarea) {
+        resolve(feedbackTextarea);
+      } else {
+        // Check again in a short time
+        requestAnimationFrame(checkTextarea);
+      }
+    };
+    
+    // Start checking
+    setTimeout(checkTextarea, 1000);
+    
+  });
+}
+
 export function setFeedbackValue(feedback) {
   const sourceCodeButton = getSourceCodeButton();
 
   // click button to show dialog in page 
   sourceCodeButton.click();
-  //console.log(feedback)
-  const feedbackTextarea = getFeedbackTextarea();
 
-  feedbackTextarea.textContent = "test";
+  waitForFeedbackTextarea().then(feedbackTextArea => {
+    console.log(feedbackTextArea);
+    setTimeout(() => {
+        feedbackTextArea.innerHTML = "test"; // Change this to .innerHTML if necessary
+
+        // Optionally, focus on the div after updating its content
+        feedbackTextArea.focus();
+
+        // Dispatch an input event to notify any listeners
+        const inputEvent = new Event('input', {
+          bubbles: true,
+          cancelable: true,
+        });
+        feedbackTextArea.dispatchEvent(inputEvent);
+      }, 1000);
+  });
+
 
 }
