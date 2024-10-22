@@ -40,7 +40,7 @@ function getSourceCodeButton() {
   return sourceCodeButton;
 }
 
-function getFeedbackTextarea() {
+function getFeedbackElements() {
   const rightPanel = getRightPanel();
 
   // <div class="d2l-htmleditor-label-flex-container">
@@ -49,8 +49,13 @@ function getFeedbackTextarea() {
   // <d2l-dialog>
   const dialog = bottomInput.children[1].children[1].children[0].shadowRoot.children[0];
 
-  const innerTextArea = dialog.children[0].children[0].children[1].children[1];
-  return innerTextArea;
+  const feedbackTextarea = dialog.children[0].children[0].children[1].children[1];
+  const saveFeedbackButton = dialog.children[1].shadowRoot.children[0];
+
+  return {
+    feedbackTextarea,
+    saveFeedbackButton
+  };
 }
 
 export function setFeedbackValue(feedback) {
@@ -61,8 +66,9 @@ export function setFeedbackValue(feedback) {
 
   // wait 1s for dialog to show up in DOM
   setTimeout(() => {
-    const feedbackTextarea = getFeedbackTextarea();
+    const { feedbackTextarea, saveFeedbackButton } = getFeedbackElements();
     feedbackTextarea.textContent = feedback;
+    saveFeedbackButton.click();
   }, 1000);
 
 }
