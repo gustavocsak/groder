@@ -14,6 +14,14 @@
             "run_at": "document_end"
         }
     ],
+    "commands": {
+        "set-grade": {
+            "suggested_key": {
+                "default": "Alt+Shift+A"
+            },
+            "description": "Set student grade"
+        }
+    },
     "chrome": {
         "minimum_chrome_version": "88",
         "background": {

@@ -13,7 +13,6 @@ export function getRightPanel() {
 }
 
 export function getGradeInput() {
-  
   const rightPanel = getRightPanel();
 
   // <div class="d2l-grade-result-presentational-container">
@@ -48,7 +47,6 @@ function getFeedbackElements() {
 
   // <d2l-dialog>
   const dialog = bottomInput.children[1].children[1].children[0].shadowRoot.children[0];
-
   const feedbackTextarea = dialog.children[0].children[0].children[1].children[1];
   const saveFeedbackButton = dialog.children[1].shadowRoot.children[0];
 

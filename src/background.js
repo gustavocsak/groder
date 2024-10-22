@@ -20,7 +20,7 @@ browser.contextMenus.create(
   {
     id: "set-grade",
     title: "Set student grade",
-    contexts: ["page"],
+    contexts: ["all"],
   }
 );
 
@@ -35,15 +35,30 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
     });
   }
   if (info.menuItemId === "set-grade") {
-    navigator.clipboard.readText().then((clipboardFeedback) => {
-      const numberMatch = clipboardFeedback.match(/th>\s*Total\s*<\/th>\s*<th[^>]*>\s*(\d{1,3})\s*\//);
-      const score = numberMatch[1];
-      const grade = {
-        score: score,
-        feedback: clipboardFeedback,
-      };
-      console.log(grade);
-      browser.tabs.sendMessage(tab.id, { action: "setGrade", grade: grade });
+    handleSetGrade(tab);
+  }
+});
+
+browser.commands.onCommand.addListener((command) => {
+  if (command === "set-grade") {
+    browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+      if (tabs.length > 0) {
+        handleSetGrade(tabs[0]);
+      }
     });
   }
 });
+
+function handleSetGrade(tab) {
+  navigator.clipboard.readText().then((clipboardFeedback) => {
+    const numberMatch = clipboardFeedback.match(/th>\s*Total\s*<\/th>\s*<th[^>]*>\s*(\d{1,3})\s*\//);
+    const score = numberMatch[1];
+    const grade = {
+      score: score,
+      feedback: clipboardFeedback,
+    };
+    if (tab) {
+      browser.tabs.sendMessage(tab.id, { action: "setGrade", grade: grade });
+    }
+  });
+}
