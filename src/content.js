@@ -12,7 +12,7 @@ browser.runtime.onMessage.addListener((message) => {
   }
   if (message.action === "setGrade") {
     const input = getGradeInput();
-    input.value = message.gradePackage.grade;
+    input.value = message.grade.score;
     const event = new Event('input', {
       bubbles: true, // Allow the event to bubble up
       cancelable: true // Allow the event to be canceled
@@ -20,6 +20,6 @@ browser.runtime.onMessage.addListener((message) => {
     // Dispatch the event
     input.dispatchEvent(event);
 
-    setFeedbackValue(message.gradePackage.feedback);
+    setFeedbackValue(message.grade.feedback);
   }
 });

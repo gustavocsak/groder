@@ -36,13 +36,14 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
   }
   if (info.menuItemId === "set-grade") {
     navigator.clipboard.readText().then((clipboardFeedback) => {
-      const total = clipboardFeedback.match(/th>\s*Total\s*<\/th>\s*<th[^>]*>\s*(\d{1,3})\s*\//);
-      const grade = total[1];
-      const gradePackage = {
-        grade: grade,
-        message: clipboardFeedback,
+      const numberMatch = clipboardFeedback.match(/th>\s*Total\s*<\/th>\s*<th[^>]*>\s*(\d{1,3})\s*\//);
+      const score = numberMatch[1];
+      const grade = {
+        score: score,
+        feedback: clipboardFeedback,
       };
-      browser.tabs.sendMessage(tab.id, { action: "setGrade", gradePackage: gradePackage });
+      console.log(grade);
+      browser.tabs.sendMessage(tab.id, { action: "setGrade", grade: grade });
     });
   }
 });
