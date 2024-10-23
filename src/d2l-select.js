@@ -64,6 +64,7 @@ export function setFeedbackValue(feedback) {
 
   // wait 1s for dialog to show up in DOM
   setTimeout(() => {
+    console.log(`inside d2l-select setfeedback`);
     const { feedbackTextarea, saveFeedbackButton } = getFeedbackElements();
     feedbackTextarea.textContent = feedback;
     saveFeedbackButton.click();

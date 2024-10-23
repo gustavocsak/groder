@@ -40,7 +40,9 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 browser.commands.onCommand.addListener((command) => {
+  console.log(`command received: ${command}`);
   if (command === "set-grade") {
+    console.log(`inside set-grade command`);
     browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
       if (tabs.length > 0) {
         handleSetGrade(tabs[0]);
@@ -51,14 +53,23 @@ browser.commands.onCommand.addListener((command) => {
 
 function handleSetGrade(tab) {
   navigator.clipboard.readText().then((clipboardFeedback) => {
-    const numberMatch = clipboardFeedback.match(/th>\s*Total\s*<\/th>\s*<th[^>]*>\s*(\d{1,3})\s*\//);
-    const score = numberMatch[1];
-    const grade = {
-      score: score,
-      feedback: clipboardFeedback,
-    };
-    if (tab) {
-      browser.tabs.sendMessage(tab.id, { action: "setGrade", grade: grade });
+    try {
+      const numberMatch = clipboardFeedback.match(/th>\s*Total\s*<\/th>\s*<th[^>]*>\s*(\d{1,3}(?:\.\d)?)\s*\//);
+
+      if (!numberMatch) {
+        throw new Error("Unable to extract score from feedback in clipboard");
+      }
+
+      const score = numberMatch[1];
+      const grade = {
+        score: score,
+        feedback: clipboardFeedback,
+      };
+      if (tab) {
+        browser.tabs.sendMessage(tab.id, { action: "setGrade", grade: grade });
+      }
+    } catch (error) {
+      alert(`Feedback error: ${error.message}`);
     }
   });
 }

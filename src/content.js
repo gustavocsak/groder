@@ -1,4 +1,4 @@
-import { getGradeInput, setFeedbackValue } from './d2l-select.js';
+import { setScoreValue, setFeedbackValue } from './d2l-select.js';
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === "formatCode") {
@@ -11,15 +11,7 @@ browser.runtime.onMessage.addListener((message) => {
     alert(code);
   }
   if (message.action === "setGrade") {
-    const input = getGradeInput();
-    input.value = message.grade.score;
-    const event = new Event('input', {
-      bubbles: true, // Allow the event to bubble up
-      cancelable: true // Allow the event to be canceled
-    });
-    // Dispatch the event
-    input.dispatchEvent(event);
-
+    setScoreValue(message.grade.score);
     setFeedbackValue(message.grade.feedback);
   }
 });
