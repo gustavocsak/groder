@@ -1,4 +1,4 @@
-export function getRightPanel() {
+function getRightPanel() {
   const page = document.querySelector(".d2l-token-receiver");
 
   // <div id="evaluation-template">
@@ -12,7 +12,7 @@ export function getRightPanel() {
   return rightPanel;
 }
 
-export function getGradeInput() {
+function getScoreInput() {
   const rightPanel = getRightPanel();
 
   // <div class="d2l-grade-result-presentational-container">
@@ -56,20 +56,53 @@ function getFeedbackElements() {
   };
 }
 
-export function setFeedbackValue(feedback) {
+function getSaveDraftButton() {
+  const page = document.querySelector(".d2l-token-receiver");
+
+  // <div id="evaluation-template">
+  const main = page.shadowRoot.children[0].shadowRoot.children[0];
+
+  // <div id="footer-container">
+  const footer = main.children[3].children[1].shadowRoot.children[0];
+
+  const saveDraftButton = footer.children[1].children[0].shadowRoot.children[0];
+
+  return saveDraftButton;
+}
+
+function setFeedbackValue(feedback) {
   const sourceCodeButton = getSourceCodeButton();
 
   // click button to show dialog in page 
   sourceCodeButton.click();
 
-  // wait 1s for dialog to show up in DOM
+  // wait .5s for dialog to show up in DOM
   setTimeout(() => {
-    console.log(`inside d2l-select setfeedback`);
     const { feedbackTextarea, saveFeedbackButton } = getFeedbackElements();
     feedbackTextarea.textContent = feedback;
     saveFeedbackButton.click();
-  }, 1000);
+  }, 500);
 
 }
 
+function setScoreValue(score) {
+  const input = getScoreInput();
+  input.value = score;
 
+  const inputEvent = new Event('input', { bubbles: true });
+  input.dispatchEvent(inputEvent);
+
+  const changeEvent = new Event('change', { bubbles: true });
+  input.dispatchEvent(changeEvent);
+}
+
+export function setGrade(grade) {
+  setScoreValue(grade.score);
+  setFeedbackValue(grade.feedback);
+
+  const saveDraftButton = getSaveDraftButton();
+  setTimeout(() => {
+    saveDraftButton.focus();
+    saveDraftButton.click();
+  }, 1000);
+}

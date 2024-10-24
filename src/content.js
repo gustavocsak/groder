@@ -1,4 +1,4 @@
-import { setScoreValue, setFeedbackValue } from './d2l-select.js';
+import { setGrade } from './d2l-select.js';
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === "formatCode") {
@@ -11,7 +11,6 @@ browser.runtime.onMessage.addListener((message) => {
     alert(code);
   }
   if (message.action === "setGrade") {
-    setScoreValue(message.grade.score);
-    setFeedbackValue(message.grade.feedback);
+    setGrade(message.grade);
   }
 });

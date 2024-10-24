@@ -40,9 +40,7 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 browser.commands.onCommand.addListener((command) => {
-  console.log(`command received: ${command}`);
   if (command === "set-grade") {
-    console.log(`inside set-grade command`);
     browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
       if (tabs.length > 0) {
         handleSetGrade(tabs[0]);
