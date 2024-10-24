@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Groder Options</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="main-popup">
+      <h2>Groder Options</h2>
+
+      <form id="optionsForm">
+        <div class="form-section-name">
+          <h4>After setting student grade:</h4>
+        </div>
+        <div class="form-group">
+          <label for="saveDraft">Save draft</label>
+          <input type="checkbox" id="saveDraft" name="saveDraft" />
+        </div>
+
+        <div class="form-group">
+          <label for="nextStudent">Go to next student</label>
+          <input type="checkbox" id="nextStudent" name="nextStudent" />
+        </div>
+
+        <button type="submit">Save</button>
+      </form>
+      <p id="status"></p>
+
+      <script src="popup.js"></script>
+    </main>
+    <footer>Created by gustavocsak</footer>
+  </body>
+</html>

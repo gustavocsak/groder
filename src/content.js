@@ -1,4 +1,4 @@
-import { setGrade } from './d2l-select.js';
+import { setGrade } from "./d2l-select.js";
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === "formatCode") {
