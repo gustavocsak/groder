@@ -122,18 +122,33 @@ function getNextStudentButton() {
   return nav.children[2].shadowRoot.children[2].shadowRoot.children[0];
 }
 
-export function setGrade(grade) {
+function clickButton(buttonType, delay = 1000) {
+  let button;
+  if (buttonType === "saveDraft") {
+    button = getSaveDraftButton();
+  } else if (buttonType === "nextStudent") {
+    button = getNextStudentButton();
+  } else {
+    return;
+  }
+
+  setTimeout(() => {
+    button.focus();
+    button.click();
+  }, delay);
+}
+
+export function resetGrade() {
+  setScoreValue("");
+  setFeedbackValue("");
+
+  clickButton("saveDraft");
+}
+
+export function setGrade(grade, config) {
   setScoreValue(grade.score);
   setFeedbackValue(grade.feedback);
 
-  const saveDraftButton = getSaveDraftButton();
-  const nextStudentButton = getNextStudentButton();
-  setTimeout(() => {
-    saveDraftButton.focus();
-    saveDraftButton.click();
-  }, 1000);
-  setTimeout(() => {
-    nextStudentButton.focus();
-    nextStudentButton.click();
-  }, 1000);
+  clickButton("saveDraft", config.saveDraftDelay);
+  clickButton("nextStudent", config.nextStudentDelay);
 }

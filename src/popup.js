@@ -1,3 +1,7 @@
+function setValue(id, value) {
+  document.getElementById(id).value = value;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("optionsForm");
   const status = document.getElementById("status");
@@ -5,14 +9,28 @@ document.addEventListener("DOMContentLoaded", function () {
   browser.storage.local.get(
     ["saveDraft", "nextStudent", "saveDraftDelay", "nextStudentDelay"],
     (result) => {
+      if (result.saveDraftDelay === undefined) {
+        browser.storage.local.set({ saveDraftDelay: 1000 }).then(() => {
+          setValue("saveDraftDelay", 1000);
+        });
+      } else {
+        setValue("saveDraftDelay", result.saveDraftDelay);
+      }
+
+      if (result.nextStudentDelay === undefined) {
+        browser.storage.local.set({ nextStudentDelay: 1000 }).then(() => {
+          setValue("nextStudentDelay", 1000);
+        });
+      } else {
+        setValue("nextStudentDelay", result.nextStudentDelay);
+      }
+
+      setValue("saveDraft", result.saveDraft || false);
+
       document.getElementById("saveDraft").checked = result.saveDraft || false;
       document.getElementById("saveDraft").disabled = result.nextStudent;
       document.getElementById("nextStudent").checked =
         result.nextStudent || false;
-      document.getElementById("saveDraftDelay").value =
-        result.saveDraftDelay || 1000;
-      document.getElementById("nextStudentDelay").value =
-        result.nextStudentDelay || 1000;
     },
   );
 

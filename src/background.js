@@ -1,32 +1,35 @@
-import { formatCode } from './format.js';
+import { formatCode } from "./format.js";
 
-browser.contextMenus.create(
-  {
-    id: "format-code",
-    title: "Format selected code",
-    contexts: ["selection"],
-  },
-);
+browser.contextMenus.create({
+  id: "format-code",
+  title: "Format selected code",
+  contexts: ["selection"],
+});
 
-browser.contextMenus.create(
-  {
-    id: "paste-formatted-code",
-    title: "Paste and format code",
-    contexts: ["editable"],
-  }
-);
+browser.contextMenus.create({
+  id: "paste-formatted-code",
+  title: "Paste and format code",
+  contexts: ["editable"],
+});
 
-browser.contextMenus.create(
-  {
-    id: "set-grade",
-    title: "Set student grade",
-    contexts: ["all"],
-  }
-);
+browser.contextMenus.create({
+  id: "set-grade",
+  title: "Set Student Grade",
+  contexts: ["all"],
+});
+
+browser.contextMenus.create({
+  id: "reset-grade",
+  title: "Reset Student Grade",
+  contexts: ["all"],
+});
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "format-code") {
-    browser.tabs.sendMessage(tab.id, { action: "formatCode", selectedText: info.selectionText });
+    browser.tabs.sendMessage(tab.id, {
+      action: "formatCode",
+      selectedText: info.selectionText,
+    });
   }
   if (info.menuItemId === "paste-formatted-code") {
     navigator.clipboard.readText().then(async (clipboardCode) => {
@@ -36,6 +39,9 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
   }
   if (info.menuItemId === "set-grade") {
     handleSetGrade(tab);
+  }
+  if (info.menuItemId === "reset-grade") {
+    browser.tabs.sendMessage(tab.id, { action: "resetGrade" });
   }
 });
 
@@ -52,7 +58,9 @@ browser.commands.onCommand.addListener((command) => {
 function handleSetGrade(tab) {
   navigator.clipboard.readText().then((clipboardFeedback) => {
     try {
-      const numberMatch = clipboardFeedback.match(/th>\s*Total\s*<\/th>\s*<th[^>]*>\s*(\d{1,3}(?:\.\d)?)\s*\//);
+      const numberMatch = clipboardFeedback.match(
+        /th>\s*Total\s*<\/th>\s*<th[^>]*>\s*(\d{1,3}(?:\.\d)?)\s*\//,
+      );
 
       if (!numberMatch) {
         throw new Error("Unable to extract score from feedback in clipboard");
