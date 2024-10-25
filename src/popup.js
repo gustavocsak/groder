@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const status = document.getElementById("status");
 
   browser.storage.local.get(["saveDraft", "nextStudent"], (result) => {
-    document.getElementById("saveDraft").value = result.saveDraft || "system";
+    document.getElementById("saveDraft").checked = result.saveDraft || false;
+    document.getElementById("saveDraft").disabled = result.nextStudent;
     document.getElementById("nextStudent").checked =
       result.nextStudent || false;
   });
@@ -13,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const status = document.getElementById("status");
 
-    const saveDraft = document.getElementById("saveDraft").value;
+    const saveDraft = document.getElementById("saveDraft").checked;
     const nextStudent = document.getElementById("nextStudent").checked;
 
     browser.storage.local.set(

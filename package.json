@@ -47,7 +47,14 @@
             {
                 "name": "content",
                 "src": "./src/content.js"
+            },
+            {
+                "name": "popup",
+                "src": "./src/popup.js"
             }
+        ],
+        "copyAsIs": [
+            "./src/popup.css"
         ]
     },
     "dependencies": {
