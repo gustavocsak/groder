@@ -11,6 +11,10 @@ browser.runtime.onMessage.addListener((message) => {
     alert(code);
   }
   if (message.action === "setGrade") {
-    setGrade(message.grade);
+    browser.storage.local
+      .get(["saveDraftDelay", "nextStudentDelay"])
+      .then((result) => {
+        setGrade(message.grade, result);
+      });
   }
 });
