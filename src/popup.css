@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #18181b;
+  color: #f1f5f9;
+  font-family: "Noto Sans", sans serif;
+  min-width: 400px;
+}
+
+.main-popup {
+  background-color: #18181b;
+  margin: 0;
+  padding: 1rem;
+}
+
+footer {
+  text-align: center;
+  background-color: #064e3b;
+  padding: 0.5rem;
+  font-size: 14px;
+}
+
+h4 {
+  margin-bottom: 0;
+}
+
+.form-group {
+  margin-bottom: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.form-section-name {
+  margin-bottom: 0.5rem;
+}
+
+
