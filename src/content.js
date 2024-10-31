@@ -1,4 +1,5 @@
 import { setGrade, resetGrade } from "./d2l-select.js";
+import { setQuizGrade } from "./quiz.js";
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === "formatCode") {
@@ -19,5 +20,8 @@ browser.runtime.onMessage.addListener((message) => {
   }
   if (message.action === "resetGrade") {
     resetGrade();
+  }
+  if (message.action === "setQuizGrade") {
+    setQuizGrade(message.grade);
   }
 });

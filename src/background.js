@@ -24,6 +24,12 @@ browser.contextMenus.create({
   contexts: ["all"],
 });
 
+browser.contextMenus.create({
+  id: "set-quiz-grade",
+  title: "Set Quiz Grade",
+  contexts: ["all"],
+});
+
 browser.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "format-code") {
     browser.tabs.sendMessage(tab.id, {
@@ -38,10 +44,13 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
     });
   }
   if (info.menuItemId === "set-grade") {
-    handleSetGrade(tab);
+    handleSetGrade(tab, "setGrade");
   }
   if (info.menuItemId === "reset-grade") {
     browser.tabs.sendMessage(tab.id, { action: "resetGrade" });
+  }
+  if (info.menuItemId === "set-quiz-grade") {
+    handleSetGrade(tab, "setQuizGrade");
   }
 });
 
@@ -49,14 +58,14 @@ browser.commands.onCommand.addListener((command) => {
   if (command === "set-grade") {
     browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
       if (tabs.length > 0) {
-        handleSetGrade(tabs[0]);
+        handleSetGrade(tabs[0], "setGrade");
       }
     });
   }
 });
 
-function handleSetGrade(tab) {
-  navigator.clipboard.readText().then((clipboardFeedback) => {
+function extractGrade() {
+  return navigator.clipboard.readText().then((clipboardFeedback) => {
     try {
       const numberMatch = clipboardFeedback.match(
         /th>\s*Total\s*<\/th>\s*<th[^>]*>\s*(\d{1,3}(?:\.\d)?)\s*\//,
@@ -71,11 +80,19 @@ function handleSetGrade(tab) {
         score: score,
         feedback: clipboardFeedback,
       };
-      if (tab) {
-        browser.tabs.sendMessage(tab.id, { action: "setGrade", grade: grade });
-      }
+      return grade;
     } catch (error) {
       alert(`Feedback error: ${error.message}`);
     }
   });
+}
+
+function handleSetGrade(tab, action) {
+  if (tab) {
+    extractGrade().then((grade) => {
+      if (grade) {
+        browser.tabs.sendMessage(tab.id, { action: action, grade: grade });
+      }
+    });
+  }
 }
