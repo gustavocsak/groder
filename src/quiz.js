@@ -16,28 +16,55 @@ function getScoreInput() {
   return input;
 }
 
-function getOverallFeedback() {
+function getBlankFeedbackArea() {
   const container = getScoreFeedbackContainer();
   const expandButton = container.querySelector(".d2l-hpg-opener");
+
   // clicking will expand feedback without buttons
-  setTimeout(() => {
-    expandButton.focus();
-    expandButton.click();
-  }, 500);
+  expandButton.focus();
+  expandButton.click();
 
-  // must find a tag to click again
-  const preFeedback = container.querySelector(".d2l-offscreen");
-  setTimeout(() => {
-    preFeedback.focus();
-    preFeedback.click();
-  }, 500);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const preFeedback = container.querySelector(".d2l-offscreen");
+      resolve(preFeedback);
+    }, 500);
+  });
+}
 
-  // <div class="d2l-htmleditor-label-flex-container">
-  const overall =
-    container.querySelector(".d2l-htmleditor-wc").shadowRoot.children[0];
+function delayClickElement(element, delay) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      element.focus();
+      element.click();
+      resolve();
+    }, delay);
+  });
+}
+
+function selectFeedback() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const container = getScoreFeedbackContainer();
+      const pre = container.querySelector(".d2l-htmleditor-wc");
+      const feedback = pre.shadowRoot.children[0];
+      resolve(feedback);
+    }, 500);
+  });
+}
+
+async function getOverallFeedback() {
+  const container = getScoreFeedbackContainer();
+  const preFeedback = await getBlankFeedbackArea();
+  //await delayClickElement(preFeedback, 1000);
+  preFeedback.focus();
+  preFeedback.click();
+
+  const overall = await selectFeedback(container);
+  return overall;
+
   // FIX: something going wrong with sourceCode button
   // seems like overall is not being properly selected
-  return overall;
 }
 
 // same as assignment.js
@@ -53,8 +80,8 @@ function setScoreValue(score) {
   input.dispatchEvent(changeEvent);
 }
 
-function setFeedbackValue(feedback) {
-  const of = getOverallFeedback();
+async function setFeedbackValue(feedback) {
+  const of = await getOverallFeedback();
   console.log(of);
   const sourceCodeButton = getSourceCodeButton(of);
 
