@@ -1,4 +1,4 @@
-import { getSourceCodeButton, getFeedbackElements } from "./feedback.js";
+import { getSourceCodeButton, getFeedbackElements } from "./grade.js";
 
 function getScoreFeedbackContainer() {
   const form = document.querySelector("#d2l_form");

@@ -1,3 +1,5 @@
+import { setScore, setFeedback } from "./grade.js";
+
 /**
  * Returns main element in d2l assignment page
  */
@@ -40,40 +42,12 @@ function getScoreInput() {
   return inputContainer.children[0].children[0];
 }
 
-function getOverallFeedback() {
+function getEditor() {
   const rightPanel = getRightPanel();
 
   // <div class="d2l-htmleditor-label-flex-container">
   return rightPanel.children[1].children[0].shadowRoot.children[0].shadowRoot
     .children[0];
-}
-
-function getSourceCodeButton() {
-  const overallFeedback = getOverallFeedback();
-
-  // <div class="d2l-htmleditor-toolbar-actions">
-  const toolbar =
-    overallFeedback.children[1].children[0].children[0].children[0].shadowRoot
-      .children[0].children[0];
-
-  // d2l button element for source code
-  return toolbar.querySelector('d2l-htmleditor-button[cmd="d2l-source-code"]')
-    .shadowRoot.children[0];
-}
-
-function getFeedbackElements() {
-  const overallFeedback = getOverallFeedback();
-  // <d2l-dialog>
-  const dialog =
-    overallFeedback.children[1].children[1].children[0].shadowRoot.children[0];
-  const feedbackTextarea =
-    dialog.children[0].children[0].children[1].children[1];
-  const saveFeedbackButton = dialog.children[1].shadowRoot.children[0];
-
-  return {
-    feedbackTextarea,
-    saveFeedbackButton,
-  };
 }
 
 function getSaveDraftButton() {
@@ -85,31 +59,6 @@ function getSaveDraftButton() {
   const saveDraftButton = footer.children[1].children[0].shadowRoot.children[0];
 
   return saveDraftButton;
-}
-
-function setFeedbackValue(feedback) {
-  const sourceCodeButton = getSourceCodeButton();
-
-  // click button to show dialog in page
-  sourceCodeButton.click();
-
-  // wait .5s for dialog to show up in DOM
-  setTimeout(() => {
-    const { feedbackTextarea, saveFeedbackButton } = getFeedbackElements();
-    feedbackTextarea.textContent = feedback;
-    saveFeedbackButton.click();
-  }, 500);
-}
-
-function setScoreValue(score) {
-  const input = getScoreInput();
-  input.value = score;
-
-  const inputEvent = new Event("input", { bubbles: true });
-  input.dispatchEvent(inputEvent);
-
-  const changeEvent = new Event("change", { bubbles: true });
-  input.dispatchEvent(changeEvent);
 }
 
 function getNextStudentButton() {
@@ -138,15 +87,15 @@ function clickButton(buttonType, delay = 1000) {
 }
 
 export function resetGrade() {
-  setScoreValue("");
-  setFeedbackValue("");
+  setScore("", getScoreInput());
+  setFeedback(getEditor(), "");
 
   clickButton("saveDraft");
 }
 
 export function setGrade(grade, config) {
-  setScoreValue(grade.score);
-  setFeedbackValue(grade.feedback);
+  setScore(grade.score, getScoreInput());
+  setFeedback(getEditor(), grade.feedback);
 
   clickButton("saveDraft", config.saveDraftDelay);
   clickButton("nextStudent", config.nextStudentDelay);
