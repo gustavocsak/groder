@@ -17,7 +17,7 @@
     "commands": {
         "set-grade": {
             "suggested_key": {
-                "default": "Alt+Shift+A"
+                "default": "Ctrl+Alt+A"
             },
             "description": "Set student grade"
         }
