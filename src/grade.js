@@ -1,10 +1,5 @@
 // code to select elements starting from:
 // <div class="d2l-htmleditor-flex-container"> "editor"
-
-// for now accepting overallfeedback element as parameter
-// TODO: find better way to implement this
-// maybe not accept overallFeedback?
-// quiz/assignment parameter?
 export function getSourceCodeButton(editor) {
   // <div class="d2l-htmleditor-toolbar-actions">
   const toolbar =
@@ -16,7 +11,6 @@ export function getSourceCodeButton(editor) {
     .shadowRoot.children[0];
 }
 
-// same for this
 export function getFeedbackElements(editor) {
   // <d2l-dialog>
   const dialog =

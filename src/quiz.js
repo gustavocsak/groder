@@ -1,4 +1,4 @@
-import { getSourceCodeButton, getFeedbackElements } from "./grade.js";
+import { getSourceCodeButton, getFeedbackElements, setScore } from "./grade.js";
 
 function getScoreFeedbackContainer() {
   const form = document.querySelector("#d2l_form");
@@ -20,7 +20,6 @@ function getBlankFeedbackArea() {
   const container = getScoreFeedbackContainer();
   const expandButton = container.querySelector(".d2l-hpg-opener");
 
-  // clicking will expand feedback without buttons
   expandButton.focus();
   expandButton.click();
 
@@ -56,33 +55,15 @@ function selectFeedback() {
 async function getOverallFeedback() {
   const container = getScoreFeedbackContainer();
   const preFeedback = await getBlankFeedbackArea();
-  //await delayClickElement(preFeedback, 1000);
   preFeedback.focus();
   preFeedback.click();
 
   const overall = await selectFeedback(container);
   return overall;
-
-  // FIX: something going wrong with sourceCode button
-  // seems like overall is not being properly selected
-}
-
-// same as assignment.js
-// TODO: move to lib file
-function setScoreValue(score) {
-  const input = getScoreInput();
-  input.value = score;
-
-  const inputEvent = new Event("input", { bubbles: true });
-  input.dispatchEvent(inputEvent);
-
-  const changeEvent = new Event("change", { bubbles: true });
-  input.dispatchEvent(changeEvent);
 }
 
 async function setFeedbackValue(feedback) {
   const of = await getOverallFeedback();
-  console.log(of);
   const sourceCodeButton = getSourceCodeButton(of);
 
   // click button to show dialog in page
@@ -97,6 +78,6 @@ async function setFeedbackValue(feedback) {
 }
 
 export function setQuizGrade(grade) {
-  setScoreValue(grade.score);
+  setScore(grade.score, getScoreInput());
   setFeedbackValue(grade.feedback);
 }
