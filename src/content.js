@@ -1,4 +1,4 @@
-import { setGrade, resetGrade } from "./d2l-select.js";
+import { setGrade, resetGrade } from "./assignment.js";
 import { setQuizGrade } from "./quiz.js";
 
 browser.runtime.onMessage.addListener((message) => {

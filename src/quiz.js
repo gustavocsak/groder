@@ -1,4 +1,8 @@
-import { getSourceCodeButton, getFeedbackElements, setScore } from "./grade.js";
+import {
+  getSourceCodeButton,
+  getFeedbackElements,
+  setScore,
+} from "./gradeUtils.js";
 
 function getScoreFeedbackContainer() {
   const form = document.querySelector("#d2l_form");

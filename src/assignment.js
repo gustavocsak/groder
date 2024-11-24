@@ -1,4 +1,4 @@
-import { setScore, setFeedback } from "./grade.js";
+import { setScore, setFeedback } from "./gradeUtils.js";
 
 /**
  * Returns main element in d2l assignment page
@@ -96,7 +96,9 @@ export function resetGrade() {
 export function setGrade(grade, config) {
   setScore(grade.score, getScoreInput());
   setFeedback(getEditor(), grade.feedback);
+  console.log(config);
 
+  // Next Student click must happen after save draft click
   clickButton("saveDraft", config.saveDraftDelay);
-  clickButton("nextStudent", config.nextStudentDelay);
+  clickButton("nextStudent", config.nextStudentDelay + config.saveDraftDelay);
 }

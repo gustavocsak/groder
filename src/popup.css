@@ -1,21 +1,22 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #18181b;
-  color: #f1f5f9;
-  font-family: "Noto Sans", sans serif;
+  color: #18181b;
+  font-family:
+    "Noto Sans",
+    sans serif;
   min-width: 400px;
 }
 
 .main-popup {
-  background-color: #18181b;
+  background-color: #fafafa;
   margin: 0;
   padding: 1rem;
 }
 
 footer {
   text-align: center;
-  background-color: #064e3b;
+  background-color: #10b981;
   padding: 0.5rem;
   font-size: 14px;
 }
@@ -35,4 +36,11 @@ h4 {
   margin-bottom: 0.5rem;
 }
 
+.muted {
+  font-size: 12px;
+  color: #3f3f46;
+}
 
+.mb {
+  margin-bottom: 1rem;
+}
