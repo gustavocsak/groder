@@ -35,11 +35,23 @@ function getScoreInput() {
     );
 
   // <div class="d2l-input-container">
-  const inputContainer =
-    overallGradeContainer.children[0].shadowRoot.children[0].children[0]
-      .children[0].children[0].shadowRoot.children[0].shadowRoot.children[0];
+  // const inputContainer =
+  //   overallGradeContainer.children[0].children[1].children[0].shadowRoot.children[0].children[0]
+  //     .children[0].shadowRoot.children[0].shadowRoot.children[0];
+  const d2l_grade_result_nscore = overallGradeContainer.querySelector(
+    "d2l-grade-result-numeric-score",
+  );
 
-  return inputContainer.children[0].children[0];
+  const d2l_form = d2l_grade_result_nscore.shadowRoot.querySelector("d2l-form");
+
+  const d2l_input_number = d2l_form.querySelector("d2l-input-number");
+
+  const d2l_input_container =
+    d2l_input_number.shadowRoot.children[0].shadowRoot.querySelector(
+      ".d2l-input-container",
+    );
+
+  return d2l_input_container.children[0].children[0];
 }
 
 function getEditor() {
@@ -99,6 +111,6 @@ export function setGrade(grade, config) {
   console.log(config);
 
   // Next Student click must happen after save draft click
-  clickButton("saveDraft", config.saveDraftDelay);
-  clickButton("nextStudent", config.nextStudentDelay + config.saveDraftDelay);
+  clickButton("saveDraft", 1000);
+  clickButton("nextStudent", 2000);
 }
